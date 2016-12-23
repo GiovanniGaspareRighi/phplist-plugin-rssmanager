@@ -288,12 +288,17 @@ class rssmanager extends phplistPlugin {
     
     $this->rssMessages[$messagedata['id']] = 1;
     
-    if ($userFrequency == $messagedata["rsstemplate"]) {
-      $rssitems = $this->rssUserHasContent($userdata['id'],$messagedata['id'],$userFrequency);
-      $threshold = sprintf('%d',getConfig("rssmanager_threshold"));
-      $cansend = sizeof($rssitems) && (sizeof($rssitems) >= $threshold);
+    #check if we have to send just one time, else we use the defalut code
+    if (strcmp($messagedata["rsstemplate"],"one time") == 0) {
+    	$cansend = true;
     } else {
-      $cansend = false;
+    	if ($userFrequency == $messagedata["rsstemplate"]) {
+    	  	$rssitems = $this->rssUserHasContent($userdata['id'],$messagedata['id'],$userFrequency);
+      		$threshold = sprintf('%d',getConfig("rssmanager_threshold"));
+      		$cansend = sizeof($rssitems) && (sizeof($rssitems) >= $threshold);
+    	} else {
+      	$cansend = false;
+    	}
     }
     if ($cansend) {
       cl_output('RSS 2 Cansend '.$threshold.' '.sizeof($rssitems));
