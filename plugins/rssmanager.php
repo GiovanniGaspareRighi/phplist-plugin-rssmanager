@@ -277,10 +277,14 @@ class rssmanager extends phplistPlugin {
        return true;
     }
     
+    echo "passato il primo controllo [RSS]";
+    
     if (empty($this->frequency_attribute)) {
       cl_output('No attribute');exit;
       return false;
     }
+    
+    echo "passato il controllo this->frequency_attribute";
     
     $userFrequency = UserAttributeValue($userdata['id'],$this->frequency_attribute);
 
@@ -290,7 +294,7 @@ class rssmanager extends phplistPlugin {
     
     #check if we have to send just one time, else we use the defalut code
     if (strcmp($messagedata["rsstemplate"],"one time") == 0) {
-    	$cansend = true;
+    	return true;
     } else {
     	if ($userFrequency == $messagedata["rsstemplate"]) {
     	  	$rssitems = $this->rssUserHasContent($userdata['id'],$messagedata['id'],$userFrequency);
