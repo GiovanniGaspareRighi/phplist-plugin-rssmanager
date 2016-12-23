@@ -245,8 +245,9 @@ class rssmanager extends phplistPlugin {
     $nippet = s('If you want to use this message as the template for sending RSS feeds
     select the frequency it should be used for and use [RSS] in your message to indicate where the list of items needs to go.');
     $nippet .= '<br />';
-    $noRssSelected = isset($data['rsstemplate']) && $data['rsstemplate'] != 'none' ? '' : 'checked';
-    $nippet .= sprintf('<input type=radio name="rsstemplate" value="none" %s>', $noRssSelected) . s('No RSS') . ' ';
+    #chenged 'none' to 'one time' - if [RSS] placeholder is present than send to all user
+    $noRssSelected = isset($data['rsstemplate']) && $data['rsstemplate'] != 'one time' ? '' : 'checked';
+    $nippet .= sprintf('<input type=radio name="rsstemplate" value="one time" %s>', $noRssSelected) . s('if [RSS] is present') . ' ';
     foreach ($this->rssFrequencies as $key => $value) {
       $nippet .= sprintf('<input type=radio name="rsstemplate" value="%s" %s>%s ', $key, $data['rsstemplate'] == $key ? 'checked' : '', $value['caption']);
     }
